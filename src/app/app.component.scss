@@ -1,0 +1,76 @@
+.all-wrap {
+  min-height: 100vh;
+
+  mat-sidenav {
+    .gray {
+      background-color: #f0e2f8;
+    }
+  }
+
+  .page-wrap {
+    min-height: 100vh;
+
+    .icon {
+      padding: 0 14px;
+    }
+
+    .spacer {
+      flex: 1 1 auto;
+    }
+
+    /*
+     * Make the Component injected by Router Outlet full height:
+     */
+    main {
+      > *:not(router-outlet) {
+        flex: 1;
+        display: block;
+      }
+    }
+
+    .content {
+      margin: 82px auto 32px;
+      padding: 0 16px;
+      max-width: 960px;
+    }
+
+    footer {
+      margin: 8px 0;
+      line-height: 20px;
+
+      button {
+        height: 30px;
+        padding: 0 8px 0;
+        line-height: 0;
+      }
+
+      a,
+      a:visited,
+      a:hover {
+        color: #1976d2;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: #125699;
+      }
+    }
+  }
+
+  svg#clouds {
+    position: fixed;
+    bottom: -160px;
+    left: -230px;
+    z-index: -10;
+    width: 1920px;
+  }
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 767px) {
+
+}
+
+@media screen and (max-width: 575px) {
+
+}

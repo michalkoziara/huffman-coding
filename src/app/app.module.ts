@@ -9,6 +9,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {CoreModule} from './core/core.module';
 import {SharedModule} from './shared/shared.module';
 import {MaterialModule} from './angular-material.module';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {MaterialModule} from './angular-material.module';
   imports: [
     BrowserModule,
     MaterialModule,
+    FlexLayoutModule,
     AppRoutingModule,     // Main routes for the application
     CoreModule,           // Singleton objects (services, components that are loaded once)
     SharedModule,         // Shared (multi-instance) objects
