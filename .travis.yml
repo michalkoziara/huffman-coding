@@ -21,6 +21,7 @@ deploy:
   - provider: heroku
     strategy: api
     app: huffman-coding
+    skip_cleanup: true
     api_key:
       secure: UgB3Z+T8zJJigYUQigSDdHZI7WV6pNkWjwSubTojoxQLwwiZ5doanK136j9whUUAnPEbIaEe2cvSVR+xjeOiqnT23nhEI6XdVCyZPTAoT2ZpgpzO8/neYg6RC5D6XWcKFxCCpY1UZCERZcdawPUz/jEr/Dh5ccyFyl2PjMSS0aRPVSBtz8t29VnNYgHJ48teE3Vn6cX8YnNp6vflY1fSvnOWWxkRkqYV1TUydFQ0PA1qQtuuJizoroGb2KbBVRCFsMuCmza0xBMA1i4JoNmYATEBkkTy4tRw2HfgfDJFZptbFoY/uKZgqQlB5XROhlkCAFWnwy4VgkiwxXCO7sv0IMC12JcDnIg0I1njgH8UKa27tZeJx+edE88dtRDAkKLOgesAhxQqY8XcP+967iHNfPMgOoFFQIZu3th5KwXiDyiVgEllJL9L4z2iHBMb3USAOV9Pa20wKHABKr4BBSEPl5mBYv3SzPoPPpYWa53l6CyEoGVPVg2CFGBeJv5HJ7Qg2jxQsCfDNWdL4mS0HV15f3BeRl0+G88VJV2jye+gNbus9koGy+SnHcvk0z+dIFUcQ0iahBnTTH9ftv0NMaNL3DB01jBcC/R7yDUW21ElyrKCCyku3K0CpogQ18O/zxcA59+WRXOL+R4P9S1jlSp+KiSftcKBpMZyjYFtJ9YEN/Y=
     on:
