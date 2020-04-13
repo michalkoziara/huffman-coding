@@ -1,7 +1,7 @@
 {
-  "name": "huffman-coding",
-  "short_name": "huffman-coding",
-  "theme_color": "#1976d2",
+  "name": "Huffman Coding",
+  "short_name": "Huffman Coding",
+  "theme_color": "#673ab7",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",
