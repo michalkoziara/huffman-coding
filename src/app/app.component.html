@@ -2,11 +2,13 @@
   <mat-sidenav class="sidenav" #sidenav>
     <mat-list>
       <mat-toolbar color="primary">Menu</mat-toolbar>
-      <mat-list-item routerLinkActive="router-link-active" [routerLink]="['/']">
+      <mat-list-item routerLinkActive="router-link-active" [routerLink]="['/']"
+                     (click)="menuListItemSelected('/')">
         <mat-icon>keyboard_arrow_right</mat-icon>
         Wprowadzenie
       </mat-list-item>
-      <mat-list-item routerLinkActive="router-link-active" [routerLink]="['/']">
+      <mat-list-item routerLinkActive="router-link-active" [routerLink]="['/huffman']"
+                     (click)="menuListItemSelected('/huffman')">
         <mat-icon>keyboard_arrow_right</mat-icon>
         Kodowanie Huffmana
       </mat-list-item>
@@ -14,11 +16,13 @@
         <mat-icon>keyboard_arrow_right</mat-icon>
         Dynamiczne kodowanie
       </mat-toolbar>
-      <mat-list-item routerLinkActive="router-link-active" [routerLink]="['/']">
+      <mat-list-item routerLinkActive="router-link-active" [routerLink]="['/fgk']"
+                     (click)="menuListItemSelected('/fgk')">
         <mat-icon>keyboard_arrow_right</mat-icon>
         Algorytm Fallera-Gallagera-Knutha
       </mat-list-item>
-      <mat-list-item routerLinkActive="router-link-active" [routerLink]="['/']">
+      <mat-list-item routerLinkActive="router-link-active" [routerLink]="['/vitter']"
+                     (click)="menuListItemSelected('/vitter')">
         <mat-icon>keyboard_arrow_right</mat-icon>
         Algorytm Vittera
       </mat-list-item>
@@ -36,7 +40,7 @@
             title="Otwórz panel boczny">
             <mat-icon>menu</mat-icon>
           </button>
-          <span>Kodowanie Huffmana</span>
+          <span>{{currentSite}}</span>
           <span class="spacer"></span>
           <mat-icon class="icon" aria-hidden="false" aria-label="Favorite icon">favorite</mat-icon>
           <mat-icon class="icon" aria-hidden="false" aria-label="Delete icon">delete</mat-icon>
