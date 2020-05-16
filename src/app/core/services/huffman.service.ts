@@ -84,11 +84,27 @@ export class HuffmanService {
           minValueOnRight = value;
 
           // For other iterations if current letter have larger value then it should be replaced
-        } else if (minValueOnLeft != null && minValueOnLeft >= value) {
-          minValueOnRight = minValueOnLeft;
-          letterWithMinValueOnRight = letterWithMinValueOnLeft;
-          minValueOnLeft = value;
-          letterWithMinValueOnLeft = letter;
+        } else if (minValueOnLeft != null && minValueOnRight != null) {
+
+          if (minValueOnRight > value) {
+            if (minValueOnLeft > minValueOnRight) {
+              minValueOnLeft = minValueOnRight;
+              letterWithMinValueOnLeft = letterWithMinValueOnRight;
+            }
+
+            minValueOnRight = value;
+            letterWithMinValueOnRight = letter;
+          }
+
+          if (minValueOnLeft > value) {
+            if (minValueOnRight > minValueOnLeft) {
+              minValueOnRight = minValueOnLeft;
+              letterWithMinValueOnRight = letterWithMinValueOnLeft;
+            }
+
+            minValueOnLeft = value;
+            letterWithMinValueOnLeft = letter;
+          }
         }
       }
 
