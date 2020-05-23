@@ -58,6 +58,33 @@ export class HuffmanService {
   }
 
   /**
+   * Creates array of nodes that are leaves in given Huffman tree.
+   * @param {Tree} huffmanTree Huffman tree
+   * @returns Array of nodes
+   */
+  public getLeavesFromHuffmanTree(huffmanTree: Tree): Tree[] {
+    const huffmanTreeLeaves: Tree[] = [];
+
+    if (huffmanTree.left) {
+      huffmanTreeLeaves.push(
+        ...this.getLeavesFromHuffmanTree(huffmanTree.left)
+      );
+    }
+
+    if (huffmanTree.right) {
+      huffmanTreeLeaves.push(
+        ...this.getLeavesFromHuffmanTree(huffmanTree.right)
+      );
+    }
+
+    if (!huffmanTree.left && !huffmanTree.right) {
+      return [huffmanTree];
+    }
+
+    return huffmanTreeLeaves;
+  }
+
+  /**
    * Creates every node of Huffman tree that contains more than one node using basic Huffman coding.
    * @param {Map} frequencyTable map that contains frequency of occurs of letters
    * @returns Huffman tree

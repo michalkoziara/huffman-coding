@@ -5,6 +5,19 @@ mat-card {
     position: relative;
     background: lightgoldenrodyellow;
     max-width: 150px;
+
+    table {
+      text-align: center;
+      border-collapse: collapse;
+      border-spacing: 0;
+
+      td {
+        border: 1px solid black;
+        padding: 0 2px 0;
+        min-width: 30px;
+        min-height: 30px;
+      }
+    }
   }
 
   .coding-button {
@@ -12,6 +25,65 @@ mat-card {
   }
 }
 
-.tree-view {
+.view {
   padding: 3px;
+  min-height: 300px;
 }
+
+.stats-table{
+  margin: 15px 15px 15px 45px;
+
+  th {
+    justify-content: center;
+
+    ::ng-deep .mat-sort-header-container {
+      display:flex;
+      justify-content:center;
+    }
+  }
+
+  td {
+    min-width: 65px;
+    text-align: center;
+  }
+}
+
+mat-button-toggle-group {
+  margin-left: 12px;
+
+  mat-button-toggle ::ng-deep .mat-button-toggle-label-content {
+    line-height: 10px !important;
+  }
+
+  .mat-button-toggle-checked {
+    font-weight: normal;
+    background-color: rgb(63, 81, 181);
+    color: white;
+  }
+}
+
+.scroll-auto {
+  overflow: auto;
+}
+
+.rotate {
+  transform: rotate(90deg);
+  /* Legacy vendor prefixes that you probably don't need... */
+
+  /* Safari */
+  -webkit-transform: rotate(90deg);
+
+  /* Firefox */
+  -moz-transform: rotate(90deg);
+
+  /* IE */
+  -ms-transform: rotate(90deg);
+
+  /* Opera */
+  -o-transform: rotate(90deg);
+
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+}
+
+[hidden] { display: none !important;}

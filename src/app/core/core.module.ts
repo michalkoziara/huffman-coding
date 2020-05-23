@@ -2,6 +2,7 @@ import {NgModule, Optional, SkipSelf} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {MaterialModule} from '../angular-material.module';
 import {EnsureModuleLoadedOnce} from './ensure-module-loaded-once.guard';
@@ -16,7 +17,8 @@ import {TreantTreeComponent} from './treant-tree/treant-tree.component';
     FlexLayoutModule,
     MaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   exports: [],
   declarations: [
