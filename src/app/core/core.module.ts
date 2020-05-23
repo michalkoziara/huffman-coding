@@ -1,18 +1,22 @@
 import {NgModule, Optional, SkipSelf} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+
+import {MaterialModule} from '../angular-material.module';
 import {EnsureModuleLoadedOnce} from './ensure-module-loaded-once.guard';
 import {HuffmanComponent} from './huffman/huffman.component';
 import {VitterComponent} from './vitter/vitter.component';
 import {FgkComponent} from './fgk/fgk.component';
-import {MaterialModule} from '../angular-material.module';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {TreantTreeComponent} from './treant-tree/treant-tree.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FlexLayoutModule,
-    MaterialModule
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [],
   declarations: [

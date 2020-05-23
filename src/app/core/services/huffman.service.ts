@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Tree} from './tree';
+import {Tree} from '../models/tree';
 
 @Injectable({
   providedIn: 'root'
@@ -39,10 +39,12 @@ export class HuffmanService {
     }
 
     if (frequencyTableCopy.size == 1) {
-      // Tree contains only one node so it have to be added on the one side of tree
+      // Tree contains only one node so it should be root node
       huffmanTree = {
         value: 1,
-        right: {value: 1, text: frequencyTableCopy.keys().next().value, code: '1'}
+        text: frequencyTableCopy.keys().next().value,
+        code: '1',
+        parentNode: {value: 1}
       };
       return huffmanTree;
     }
@@ -94,9 +96,7 @@ export class HuffmanService {
 
             minValueOnRight = value;
             letterWithMinValueOnRight = letter;
-          }
-
-          if (minValueOnLeft > value) {
+          } else if (minValueOnLeft > value) {
             if (minValueOnRight > minValueOnLeft) {
               minValueOnRight = minValueOnLeft;
               letterWithMinValueOnRight = letterWithMinValueOnLeft;

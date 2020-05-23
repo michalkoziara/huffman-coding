@@ -1,1 +1,48 @@
-<app-treant-tree></app-treant-tree>
+<div fxLayout="column">
+  <div fxLayout="row">
+    <mat-card fxFlex>
+      <form [formGroup]="formGroup" (ngSubmit)="submit()" fxLayout="column">
+        <mat-form-field class="example-full-width">
+
+          <mat-label>Wprowadź tekst:</mat-label>
+          <textarea matInput formControlName="inputText"
+                    cdkTextareaAutosize
+                    cdkAutosizeMinRows="4"
+                    cdkAutosizeMaxRows="4"></textarea>
+
+          <mat-error *ngIf="!isInputTextFilled">
+            Tekst jest <strong>wymagany</strong>
+          </mat-error>
+
+        </mat-form-field>
+
+        <button mat-raised-button color="accent" class="coding-button">Zakoduj</button>
+      </form>
+    </mat-card>
+
+    <mat-card fxFlex>
+
+    </mat-card>
+  </div>
+
+  <mat-card class="tree-view">
+    <mat-card-header>
+      <mat-card class="legend">
+        <h3>Legenda:</h3>
+        <table>
+          <tr>
+            <td>Znak</td>
+            <td>Liczba wystąpień</td>
+          </tr>
+          <tr>
+            <td colspan="2">Kod</td>
+          </tr>
+        </table>
+      </mat-card>
+    </mat-card-header>
+
+    <mat-card-content>
+      <app-treant-tree [huffmanTree]="huffmanTree"></app-treant-tree>
+    </mat-card-content>
+  </mat-card>
+</div>
