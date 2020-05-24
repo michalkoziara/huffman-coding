@@ -1,7 +1,7 @@
 <mat-sidenav-container class="all-wrap" fullscreen>
   <mat-sidenav class="sidenav" #sidenav>
     <mat-list>
-      <mat-toolbar color="primary">Menu</mat-toolbar>
+      <mat-toolbar class="primary-color">Menu</mat-toolbar>
       <mat-list-item routerLinkActive="router-link-active" [routerLink]="['/']"
                      (click)="menuListItemSelected('/')">
         <mat-icon>keyboard_arrow_right</mat-icon>
@@ -12,7 +12,7 @@
         <mat-icon>keyboard_arrow_right</mat-icon>
         Kodowanie Huffmana
       </mat-list-item>
-      <mat-toolbar color="primary">
+      <mat-toolbar class="primary-color">
         <mat-icon>keyboard_arrow_right</mat-icon>
         Dynamiczne kodowanie
       </mat-toolbar>
@@ -31,7 +31,7 @@
 
   <div class="page-wrap" fxLayout="column">
     <header role="banner">
-      <mat-toolbar color="primary">
+      <mat-toolbar class="primary-color">
         <mat-toolbar-row>
           <button
             type="button"
@@ -42,8 +42,6 @@
           </button>
           <span>{{currentSite}}</span>
           <span class="spacer"></span>
-          <mat-icon class="icon" aria-hidden="false" aria-label="Favorite icon">favorite</mat-icon>
-          <mat-icon class="icon" aria-hidden="false" aria-label="Delete icon">delete</mat-icon>
         </mat-toolbar-row>
       </mat-toolbar>
     </header>
@@ -55,7 +53,7 @@
     <footer fxLayout="row" fxLayoutAlign="center center">
       <div>Did you like this project? &nbsp;</div>
       <a href="https://github.com/angular/angular" target="_blank" rel="noopener"> Give this repo a star&nbsp;</a>
-      <button mat-stroked-button color="primary">
+      <button mat-stroked-button class="primary-color">
         <mat-icon aria-hidden="false" aria-label="Star icon">star</mat-icon>
         Star
       </button>

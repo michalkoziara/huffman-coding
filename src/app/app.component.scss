@@ -1,5 +1,6 @@
 .all-wrap {
   min-height: 100vh;
+  background-color: lightblue;
 
   mat-sidenav {
     .gray {
@@ -58,6 +59,11 @@
     z-index: -10;
     width: 1920px;
   }
+}
+
+.primary-color {
+  background-color: rgb(0, 161, 224);
+  color: white;
 }
 
 /* Responsive Styles */

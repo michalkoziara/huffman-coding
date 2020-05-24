@@ -1,5 +1,5 @@
 <div fxLayout="column">
-  <div fxLayout="row">
+  <div fxLayout="row" fxLayout.lt-md="column">
     <mat-card fxFlex>
       <form [formGroup]="formGroup" (ngSubmit)="submit()" fxLayout="column">
         <mat-form-field class="example-full-width">
@@ -21,7 +21,11 @@
     </mat-card>
 
     <mat-card fxFlex>
-
+      <mat-list fxFlex fxLayout="column" fxLayoutAlign="center center">
+        <mat-list-item>Wartość entropii : {{entropy}}</mat-list-item>
+        <mat-divider fxFlex></mat-divider>
+        <mat-list-item>Średnia długość słowa kodowego : {{textAvgLength}}</mat-list-item>
+      </mat-list>
     </mat-card>
   </div>
 
@@ -44,30 +48,27 @@
         <mat-button-toggle-group [(value)]="display"
                                  class="displayFormulaBtnGroup" fxFlexAlign="start">
           <mat-button-toggle value="showTree" aria-label="Zmień na drzewo"
-                             matTooltip='Zmień na drzewo'>
+                             matTooltip='Zmień na widok drzewo'>
             <mat-icon class="rotate">account_tree</mat-icon>
           </mat-button-toggle>
           <mat-button-toggle value="showTable" aria-label="Zmień na tabele"
-                             matTooltip='Zmień na tabele'>
+                             matTooltip='Zmień na widok tabeli'>
             <mat-icon>table_chart</mat-icon>
           </mat-button-toggle>
         </mat-button-toggle-group>
       </div>
     </mat-card-header>
 
-    <mat-card-content *ngIf="display == 'showTree'" fxFlex class="tree-view">
-      <div fxFlex fxLayoutAlign="center center" *ngIf="!huffmanTree">Wpisz tekst do zakodowania w pole tekstowe!</div>
+    <mat-card-content fxFlex fxLayoutAlign="center center" fxFlexAlign="column">
+      <div *ngIf="!huffmanTree">Wpisz tekst do zakodowania w pole tekstowe!</div>
 
-      <app-treant-tree fxFlex fxLayoutAlign="center center" class="scroll-auto"
-                       *ngIf="huffmanTree" [huffmanTree]="huffmanTree"></app-treant-tree>
-    </mat-card-content>
+      <div *ngIf="display == 'showTree'" class="scroll-auto">
+        <app-treant-tree *ngIf="huffmanTree"
+                         [huffmanTree]="huffmanTree"></app-treant-tree>
+      </div>
 
-    <mat-card-content fxFlex fxLayoutAlign="center center" class="table-view">
-      <div fxFlexAlign="column">
-      <ng-container *ngIf="display == 'showTable'">
-        <div fxFlex *ngIf="!huffmanTree">Wpisz tekst do zakodowania w pole tekstowe!</div>
-
-        <div *ngIf="huffmanTree" class="stats-table">
+      <div [hidden]="display != 'showTable' || huffmanTree == null" class="table-view">
+        <div class="stats-table">
           <mat-form-field>
             <input matInput
                    (keyup)="applyFilter($event)"
@@ -95,10 +96,7 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
         </div>
-      </ng-container>
-      <mat-paginator [hidden]="display != 'showTable' || huffmanTree == null" [pageSize]="10"
-                     [pageSizeOptions]="[5, 10, 25, 100]">
-      </mat-paginator>
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
       </div>
     </mat-card-content>
   </mat-card>

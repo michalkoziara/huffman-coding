@@ -40,7 +40,7 @@ export class TreantTreeComponent implements OnInit, OnChanges {
       chart: {
         container: '#treant-id',
         nodeAlign: 'BOTTOM',
-        scrollbar: 'native',
+        scrollbar: 'None',
         connectors: {
           type: 'bCurve',
           style: {

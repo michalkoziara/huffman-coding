@@ -85,6 +85,51 @@ export class HuffmanService {
   }
 
   /**
+   * Calculates entropy value in table of Huffman codes.
+   * @param huffmanCodingTable array of nodes containing coding and number of occurs
+   * @returns value of entropy
+   */
+  public calculateEntropy(huffmanCodingTable: Tree[]): number {
+    let entropyValue = 0;
+    let numberOfCodes = 0;
+
+    for (const huffmanCoding of huffmanCodingTable) {
+      numberOfCodes += huffmanCoding.value;
+    }
+
+    for (const huffmanCoding of huffmanCodingTable) {
+      const probability = huffmanCoding.value / numberOfCodes;
+      entropyValue += probability * Math.log2(1 / probability);
+    }
+
+    return Number(entropyValue.toFixed(2));
+  }
+
+  /**
+   * Calculates average length of coding word in table of Huffman codes.
+   * @param huffmanCodingTable array of nodes containing coding and number of occurs
+   * @returns average length of coding word
+   */
+  public calculateAverageLengthOfCodingWord(huffmanCodingTable: Tree[]): number {
+    let averageLengthOfCodingWord = 0;
+    let numberOfCodes = 0;
+
+    for (const huffmanCoding of huffmanCodingTable) {
+      numberOfCodes += huffmanCoding.value;
+    }
+
+    for (const huffmanCoding of huffmanCodingTable) {
+      const probability = huffmanCoding.value / numberOfCodes;
+
+      if (huffmanCoding.code) {
+        averageLengthOfCodingWord += probability * huffmanCoding.code.length;
+      }
+    }
+
+    return Number(averageLengthOfCodingWord.toFixed(2));
+  }
+
+  /**
    * Creates every node of Huffman tree that contains more than one node using basic Huffman coding.
    * @param {Map} frequencyTable map that contains frequency of occurs of letters
    * @returns Huffman tree

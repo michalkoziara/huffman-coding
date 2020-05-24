@@ -21,6 +21,8 @@ export class HuffmanComponent {
   displayedColumns: string[] = ['text', 'value', 'code'];
   isInputTextFilled = true;
   display = 'showTree';
+  entropy = 0;
+  textAvgLength = 0;
 
   @ViewChild(MatSort, {static: false}) set matSort(matSort: MatSort) {
     if (matSort){
@@ -55,14 +57,17 @@ export class HuffmanComponent {
       );
 
       if (this.huffmanTree != null) {
-        this.dataSource = new MatTableDataSource<Tree>(
-          this.huffmanService.getLeavesFromHuffmanTree(this.huffmanTree)
-        );
+        const huffmanCodingTable = this.huffmanService.getLeavesFromHuffmanTree(this.huffmanTree);
+
+        this.dataSource = new MatTableDataSource<Tree>(huffmanCodingTable);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         if (this.filterValue !== null) {
           this.dataSource.filter = this.filterValue;
         }
+
+        this.entropy = this.huffmanService.calculateEntropy(huffmanCodingTable);
+        this.textAvgLength = this.huffmanService.calculateAverageLengthOfCodingWord(huffmanCodingTable);
       }
     }
   }
