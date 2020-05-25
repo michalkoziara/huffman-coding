@@ -7,7 +7,7 @@ import {MatSidenav} from '@angular/material/sidenav';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  currentSite = 'Kodowanie Huffmana - wprowadzenie';
+  currentPage = 'Kodowanie Huffmana - wprowadzenie';
 
   @ViewChild(MatSidenav) matSidenav: MatSidenav | undefined;
 
@@ -17,19 +17,19 @@ export class AppComponent {
     }
 
     if (routerLink == '/') {
-      this.currentSite = 'Kodowanie Huffmana - wprowadzenie';
+      this.currentPage = 'Kodowanie Huffmana - wprowadzenie';
     }
 
     if (routerLink == '/huffman') {
-      this.currentSite = 'Kodowanie Huffmana';
+      this.currentPage = 'Statyczne kodowanie Huffmana';
     }
 
     if (routerLink == '/fgk') {
-      this.currentSite = 'Algorytm Fallera-Gallagera-Knutha';
+      this.currentPage = 'Algorytm Fallera-Gallagera-Knutha';
     }
 
     if (routerLink == '/vitter') {
-      this.currentSite = 'Algorytm Vittera';
+      this.currentPage = 'Algorytm Vittera';
     }
   }
 }

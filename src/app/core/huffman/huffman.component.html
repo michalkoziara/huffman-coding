@@ -31,17 +31,30 @@
 
   <mat-card class="view" fxLayout="column">
     <mat-card-header>
-      <mat-card class="legend" *ngIf="huffmanTree && display == 'showTree'">
-        <h3>Legenda:</h3>
-        <table>
-          <tr>
-            <td>Znak</td>
-            <td>Liczba wystąpień</td>
-          </tr>
-          <tr>
-            <td colspan="2">Kod</td>
-          </tr>
-        </table>
+      <mat-card class="legend" fxLayout="column" *ngIf="huffmanTree && display == 'showTree'">
+        <h3>Legenda</h3>
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="center">
+          <div fxLayout="column" fxLayoutAlign.lt-md="center center">
+            <span fxLayoutAlign="center">Węzeł</span>
+            <table>
+              <tr>
+                <td>Liczba wystąpień</td>
+              </tr>
+            </table>
+          </div>
+          <div fxLayout="column" fxLayoutAlign.lt-md="center center">
+            <span fxLayoutAlign="center">Liść</span>
+            <table>
+              <tr>
+                <td>Znak</td>
+                <td>Liczba wystąpień</td>
+              </tr>
+              <tr>
+                <td colspan="2">Kod</td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </mat-card>
 
       <div fxFlex fxLayoutAlign="end">

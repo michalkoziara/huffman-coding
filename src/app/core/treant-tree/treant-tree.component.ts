@@ -57,7 +57,7 @@ export class TreantTreeComponent implements OnInit, OnChanges {
   private createNodeStructure(huffmanTree: Tree): NodeStructure {
     if (huffmanTree.right && huffmanTree.left) {
       return new NodeStructure(
-        this.createNode(huffmanTree.value),
+        this.createNode(huffmanTree.value, undefined, undefined, huffmanTree.index),
         [
           this.createNodeStructure(huffmanTree.left),
           this.createNodeStructure(huffmanTree.right)
@@ -67,34 +67,52 @@ export class TreantTreeComponent implements OnInit, OnChanges {
 
     if (huffmanTree.right) {
       return new NodeStructure(
-        this.createNode(huffmanTree.value, huffmanTree.text, huffmanTree.code),
+        this.createNode(huffmanTree.value, huffmanTree.text, huffmanTree.code, huffmanTree.index),
         [this.createNodeStructure(huffmanTree.right)]
       );
     }
 
     if (huffmanTree.left) {
       return new NodeStructure(
-        this.createNode(huffmanTree.value, huffmanTree.text, huffmanTree.code),
+        this.createNode(huffmanTree.value, huffmanTree.text, huffmanTree.code, huffmanTree.index),
         [this.createNodeStructure(huffmanTree.left)]
       );
     }
 
     return new NodeStructure(
-      this.createNode(huffmanTree.value, huffmanTree.text, huffmanTree.code),
+      this.createNode(huffmanTree.value, huffmanTree.text, huffmanTree.code, huffmanTree.index),
       null);
   }
 
-  private createNode(value: number, text?: string, code?: string): string {
-    if (text && code) {
+  private createNode(value: number, text?: string, code?: string, index?: number): string {
+    let nodeHtml = '<table>';
+
+    if (index) {
+      nodeHtml += '</tr><tr><td colspan="2">' + index + '</td></tr>';
+    }
+
+    if (text && text != 'NYT') {
       switch (text) {
-        case ' ': text = 'Spacja'; break;
-        case '\n': text = 'Nowa linia'; break;
-        case '\t': text = 'Tabulacja'; break;
+        case ' ':
+          text = 'Spacja';
+          break;
+        case '\n':
+          text = 'Nowa linia';
+          break;
+        case '\t':
+          text = 'Tabulacja';
+          break;
       }
 
-      return '<table><tr><td>'+text+'</td><td>'+value+'</td></tr><tr><td colspan="2">'+code+'</td></tr></table>';
+      nodeHtml += '<tr><td>' + text + '</td><td>' + value + '</td></tr>';
+      nodeHtml += '</tr><tr><td colspan="2">' + code + '</td></tr>';
+    } else if (text == 'NYT') {
+      nodeHtml += '<tr><td>' + text + '</td></tr>';
     } else {
-      return '<table><tr><td>'+value+'</td></tr></table>'
+      nodeHtml += '<tr><td>' + value + '</td></tr>';
     }
+
+    nodeHtml += '</table>';
+    return nodeHtml;
   }
 }

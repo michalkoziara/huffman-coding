@@ -7,11 +7,82 @@ import {Tree} from '../models/tree';
 export class HuffmanService {
 
   /**
+   * Creates Huffman tree based on FGK algorithm for given text.
+   * @param text text for which the tree should be created
+   */
+  public createFgkHuffmanTree(text: string): Tree | null {
+    const maxIndex = text.length;
+
+    if (maxIndex == 0) {
+      return null;
+    }
+
+    let currentMaxIndex = 255;
+    const flatTree: Tree[] = [];
+    const listOfOccurs: string[] = [];
+
+    let notYetTransformedNode: Tree = {
+      text: 'NYT',
+      index: currentMaxIndex,
+      value: 0
+    };
+    const fgkHuffmanTree: Tree = notYetTransformedNode;
+    flatTree.push(notYetTransformedNode);
+
+    for (const char of text) {
+      if (!listOfOccurs.includes(char)) {
+        notYetTransformedNode.text = '';
+        notYetTransformedNode.left = new Tree(
+          0,
+          'NYT',
+          undefined,
+          currentMaxIndex - 2,
+          undefined,
+          undefined,
+          notYetTransformedNode);
+
+        notYetTransformedNode.right = new Tree(
+          1,
+          char,
+          undefined,
+          currentMaxIndex - 1,
+          undefined,
+          undefined,
+          notYetTransformedNode);
+
+        if (notYetTransformedNode.parentNode) {
+          this.updateFgkHuffmanTree(notYetTransformedNode.parentNode, flatTree);
+        }
+
+        notYetTransformedNode.value = 1;
+        currentMaxIndex -= 2;
+        flatTree.push(notYetTransformedNode.right);
+        flatTree.push(notYetTransformedNode.left);
+        listOfOccurs.push(char);
+
+        notYetTransformedNode = notYetTransformedNode.left;
+      } else {
+        const currentTree = flatTree.find(element => element.text == char);
+
+        if (currentTree) {
+          this.updateFgkHuffmanTree(currentTree, flatTree);
+        }
+      }
+    }
+
+    if (fgkHuffmanTree) {
+      this.addCodesToHuffmanTree(fgkHuffmanTree);
+    }
+
+    return fgkHuffmanTree;
+  }
+
+  /**
    * Creates a frequency map of each letter in the given text.
    * @param {string} text text that should have frequency map calculated for
    * @returns frequency table
    */
-  createFrequencyTable(text: string): Map<string, number> {
+  public createFrequencyTable(text: string): Map<string, number> {
     const frequencyTable: Map<string, number> = new Map<string, number>();
     for (let i = 0; i < text.length; i++) {
       const charFrequency = frequencyTable.get(text.charAt(i));
@@ -30,7 +101,7 @@ export class HuffmanService {
    * @param {Map} frequencyTable map that contains frequency of occurs of letters
    * @returns Huffman tree
    */
-  createHuffmanTree(frequencyTable: Map<string, number>): Tree | null {
+  public createHuffmanTree(frequencyTable: Map<string, number>): Tree | null {
     const frequencyTableCopy: Map<string, number> = new Map<string, number>(frequencyTable);
 
     let huffmanTree: Tree | null = null;
@@ -78,7 +149,11 @@ export class HuffmanService {
     }
 
     if (!huffmanTree.left && !huffmanTree.right) {
-      return [huffmanTree];
+      if (huffmanTree.text != 'NYT') {
+        return [huffmanTree];
+      } else {
+        return [];
+      }
     }
 
     return huffmanTreeLeaves;
@@ -127,6 +202,70 @@ export class HuffmanService {
     }
 
     return Number(averageLengthOfCodingWord.toFixed(2));
+  }
+
+  /**
+   * Updates Huffman tree to meet the conditions required by FGK algorithm that FGK tree must have a sibling property
+   * and the nodes should be listed in order of non-increasing weight with each node adjacent to its sibling.
+   * @param fgkHuffmanTree Huffman tree that should be updated
+   * @param flatFgkHuffmanTree array of nodes that tree is composed of
+   */
+  private updateFgkHuffmanTree(fgkHuffmanTree: Tree, flatFgkHuffmanTree: Tree[]): void {
+    const blockNodes = flatFgkHuffmanTree.filter(
+      element => element.value == fgkHuffmanTree.value && element != fgkHuffmanTree.parentNode
+    );
+    const highestIndexNode = blockNodes.reduce(
+      (previousHighestIndexTree, currentIndexTree) => {
+        return previousHighestIndexTree.index && currentIndexTree.index
+        && previousHighestIndexTree.index > currentIndexTree.index
+          ? previousHighestIndexTree
+          : currentIndexTree
+      }
+    );
+
+    const currentIndex = fgkHuffmanTree.index;
+    const highestIndexNodeIndex = highestIndexNode.index;
+
+    if (highestIndexNodeIndex && currentIndex && highestIndexNodeIndex > currentIndex) {
+      const currentTreeParent = fgkHuffmanTree.parentNode;
+      const highestIndexNodeParent = highestIndexNode.parentNode;
+
+      if (currentTreeParent && highestIndexNodeParent) {
+        if (currentTreeParent.index == highestIndexNodeParent.index) {
+          if (currentTreeParent.left && currentTreeParent.left.index == currentIndex) {
+            currentTreeParent.left = highestIndexNode;
+            currentTreeParent.right = fgkHuffmanTree;
+          } else {
+            currentTreeParent.left = fgkHuffmanTree;
+            currentTreeParent.right = highestIndexNode;
+          }
+        } else {
+          if (currentTreeParent.left && currentTreeParent.left.index == currentIndex) {
+            currentTreeParent.left = highestIndexNode;
+          } else {
+            currentTreeParent.right = highestIndexNode;
+          }
+
+          if (highestIndexNodeParent.left && highestIndexNodeParent.left.index == highestIndexNodeIndex) {
+            highestIndexNodeParent.left = fgkHuffmanTree;
+          } else {
+            highestIndexNodeParent.right = fgkHuffmanTree;
+          }
+        }
+
+        const parentToSwap = fgkHuffmanTree.parentNode;
+        fgkHuffmanTree.parentNode = highestIndexNode.parentNode;
+        highestIndexNode.parentNode = parentToSwap;
+
+        fgkHuffmanTree.index = highestIndexNodeIndex;
+        highestIndexNode.index = currentIndex;
+      }
+    }
+    fgkHuffmanTree.value += 1;
+
+    if (fgkHuffmanTree.parentNode) {
+      this.updateFgkHuffmanTree(fgkHuffmanTree.parentNode, flatFgkHuffmanTree);
+    }
   }
 
   /**
@@ -234,7 +373,7 @@ export class HuffmanService {
    * @returns Huffman tree with codes added
    */
   private recursivelyAddCodesToHuffmanTree(huffmanTree: Tree, side?: string, code?: string): Tree {
-    if (side) {
+    if (side && huffmanTree.text != 'NYT') {
       if (side == 'left') {
         huffmanTree.code = code + '0';
       } else {
