@@ -67,7 +67,10 @@ export class HuffmanService {
           currentTree = foundNode;
 
           const blockNodes = flatTree.filter(
-            element => currentTree && element.value == currentTree.value && element.right == undefined && element.left == undefined
+            element => (currentTree
+              && element.value == currentTree.value
+              && element.right == undefined
+              && element.left == undefined)
           );
           const blockLeader = blockNodes.reduce(
             (previousHighestIndexTree, currentIndexTree) => {
@@ -116,21 +119,35 @@ export class HuffmanService {
    */
   private slideAndIncrement(vitterHuffmanTree: Tree, flatVitterHuffmanTree: Tree[]): Tree | null {
     let mainNode: Tree | null = vitterHuffmanTree;
-    let root = mainNode.parentNode;
+    const root = mainNode.parentNode;
     let blockNodes: Tree[];
 
     if (mainNode.left && mainNode.right) {
       blockNodes = flatVitterHuffmanTree.filter(
-        element => mainNode && element.value == mainNode.value + 1 && element.right == undefined && element.left == undefined && element.parentNode != undefined
+        element => (mainNode
+          && element.value == mainNode.value + 1
+          && element.right == undefined
+          && element.left == undefined
+          && element.parentNode != undefined)
       );
     } else {
       blockNodes = flatVitterHuffmanTree.filter(
-        element => mainNode && element.value == mainNode.value && element.right && element.left && element.parentNode != undefined
+        element => (mainNode
+          && element.value == mainNode.value
+          && element.right
+          && element.left
+          && element.parentNode != undefined)
       );
     }
 
-    blockNodes.filter(blockNode => (mainNode && blockNode.index && mainNode.index && blockNode.index > mainNode.index));
-    blockNodes.sort((nodeA, nodeB) => {return nodeA.index && nodeB.index ? nodeA.index - nodeB.index : 0});
+    blockNodes.filter(blockNode => (mainNode
+      && blockNode.index
+      && mainNode.index
+      && blockNode.index > mainNode.index)
+    );
+    blockNodes.sort((nodeA, nodeB) => {
+      return nodeA.index && nodeB.index ? nodeA.index - nodeB.index : 0
+    });
 
     let nextNode = blockNodes.shift();
     while (nextNode) {
