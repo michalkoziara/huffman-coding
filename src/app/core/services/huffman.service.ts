@@ -7,17 +7,161 @@ import {Tree} from '../models/tree';
 export class HuffmanService {
 
   /**
+   * Creates Huffman tree based on Vitter algorithm for given text.
+   * @param text text for which the tree should be created
+   */
+  public createVitterHuffmanTree(text: string): Tree | null {
+    if (text.length == 0) {
+      return null;
+    }
+
+    let currentMaxIndex = 256;
+    const flatTree: Tree[] = [];
+    const listOfOccurs: string[] = [];
+
+    let notYetTransformedNode: Tree = {
+      text: 'NYT',
+      index: currentMaxIndex,
+      value: 0
+    };
+    const vitterHuffmanTree: Tree = notYetTransformedNode;
+    flatTree.push(notYetTransformedNode);
+
+    for (const char of text) {
+      let leafToIncrement = null;
+      let currentTree: Tree | null = null;
+
+      if (!listOfOccurs.includes(char)) {
+        notYetTransformedNode.text = '';
+        notYetTransformedNode.left = new Tree(
+          0,
+          'NYT',
+          undefined,
+          currentMaxIndex - 2,
+          undefined,
+          undefined,
+          notYetTransformedNode);
+
+        notYetTransformedNode.right = new Tree(
+          0,
+          char,
+          undefined,
+          currentMaxIndex - 1,
+          undefined,
+          undefined,
+          notYetTransformedNode);
+
+        currentMaxIndex -= 2;
+        flatTree.push(notYetTransformedNode.right);
+        flatTree.push(notYetTransformedNode.left);
+
+        currentTree = notYetTransformedNode;
+
+        listOfOccurs.push(char);
+        leafToIncrement = notYetTransformedNode.right;
+        notYetTransformedNode = notYetTransformedNode.left;
+      } else {
+        const foundNode = flatTree.find(element => element.text == char);
+
+        if (foundNode) {
+          currentTree = foundNode;
+
+          const blockNodes = flatTree.filter(
+            element => currentTree && element.value == currentTree.value && element.right == undefined && element.left == undefined
+          );
+          const blockLeader = blockNodes.reduce(
+            (previousHighestIndexTree, currentIndexTree) => {
+              return previousHighestIndexTree.index && currentIndexTree.index
+              && previousHighestIndexTree.index > currentIndexTree.index
+                ? previousHighestIndexTree
+                : currentIndexTree
+            }
+          );
+
+          if (blockLeader != currentTree) {
+            this.swap(currentTree, blockLeader);
+          }
+
+          if (currentTree.parentNode
+            && (
+              (currentTree.parentNode.left && currentTree.parentNode.left.text == 'NYT')
+              || (currentTree.parentNode.right && currentTree.parentNode.right.text == 'NYT')
+            )) {
+            leafToIncrement = currentTree;
+            currentTree = currentTree.parentNode;
+          }
+        }
+      }
+
+      while (currentTree != null) {
+        currentTree = this.slideAndIncrement(currentTree, flatTree);
+      }
+
+      if (leafToIncrement != null) {
+        this.slideAndIncrement(leafToIncrement, flatTree);
+      }
+    }
+
+    if (vitterHuffmanTree) {
+      this.addCodesToHuffmanTree(vitterHuffmanTree);
+    }
+
+    return vitterHuffmanTree;
+  }
+
+  /**
+   * Updates Huffman tree to meet the conditions required by Vitter algorithm.
+   * @param vitterHuffmanTree Huffman tree that should be updated
+   * @param flatVitterHuffmanTree array of nodes that tree is composed of
+   */
+  private slideAndIncrement(vitterHuffmanTree: Tree, flatVitterHuffmanTree: Tree[]): Tree | null {
+    let mainNode: Tree | null = vitterHuffmanTree;
+    let root = mainNode.parentNode;
+    let blockNodes: Tree[];
+
+    if (mainNode.left && mainNode.right) {
+      blockNodes = flatVitterHuffmanTree.filter(
+        element => mainNode && element.value == mainNode.value + 1 && element.right == undefined && element.left == undefined && element.parentNode != undefined
+      );
+    } else {
+      blockNodes = flatVitterHuffmanTree.filter(
+        element => mainNode && element.value == mainNode.value && element.right && element.left && element.parentNode != undefined
+      );
+    }
+
+    blockNodes.filter(blockNode => (mainNode && blockNode.index && mainNode.index && blockNode.index > mainNode.index));
+    blockNodes.sort((nodeA, nodeB) => {return nodeA.index && nodeB.index ? nodeA.index - nodeB.index : 0});
+
+    let nextNode = blockNodes.shift();
+    while (nextNode) {
+      this.swap(mainNode, nextNode);
+      nextNode = blockNodes.shift();
+    }
+
+    mainNode.value++;
+    if (root && mainNode.left && mainNode.right) {
+      mainNode = root;
+    } else {
+      if (mainNode.parentNode) {
+        mainNode = mainNode.parentNode;
+      } else {
+        mainNode = null;
+      }
+    }
+
+    return mainNode;
+  }
+
+  /**
    * Creates Huffman tree based on FGK algorithm for given text.
    * @param text text for which the tree should be created
    */
   public createFgkHuffmanTree(text: string): Tree | null {
-    const maxIndex = text.length;
-
-    if (maxIndex == 0) {
+    if (text.length == 0) {
       return null;
     }
 
-    let currentMaxIndex = 255;
+    let currentMaxIndex = 256;
     const flatTree: Tree[] = [];
     const listOfOccurs: string[] = [];
 
@@ -223,48 +367,52 @@ export class HuffmanService {
       }
     );
 
-    const currentIndex = fgkHuffmanTree.index;
-    const highestIndexNodeIndex = highestIndexNode.index;
-
-    if (highestIndexNodeIndex && currentIndex && highestIndexNodeIndex > currentIndex) {
-      const currentTreeParent = fgkHuffmanTree.parentNode;
-      const highestIndexNodeParent = highestIndexNode.parentNode;
-
-      if (currentTreeParent && highestIndexNodeParent) {
-        if (currentTreeParent.index == highestIndexNodeParent.index) {
-          if (currentTreeParent.left && currentTreeParent.left.index == currentIndex) {
-            currentTreeParent.left = highestIndexNode;
-            currentTreeParent.right = fgkHuffmanTree;
-          } else {
-            currentTreeParent.left = fgkHuffmanTree;
-            currentTreeParent.right = highestIndexNode;
-          }
-        } else {
-          if (currentTreeParent.left && currentTreeParent.left.index == currentIndex) {
-            currentTreeParent.left = highestIndexNode;
-          } else {
-            currentTreeParent.right = highestIndexNode;
-          }
-
-          if (highestIndexNodeParent.left && highestIndexNodeParent.left.index == highestIndexNodeIndex) {
-            highestIndexNodeParent.left = fgkHuffmanTree;
-          } else {
-            highestIndexNodeParent.right = fgkHuffmanTree;
-          }
-        }
-
-        const parentToSwap = fgkHuffmanTree.parentNode;
-        fgkHuffmanTree.parentNode = highestIndexNode.parentNode;
-        highestIndexNode.parentNode = parentToSwap;
-
-        fgkHuffmanTree.index = highestIndexNodeIndex;
-        highestIndexNode.index = currentIndex;
-      }
+    if (fgkHuffmanTree.index && highestIndexNode.index && fgkHuffmanTree.index < highestIndexNode.index) {
+      this.swap(fgkHuffmanTree, highestIndexNode);
     }
     fgkHuffmanTree.value += 1;
 
     if (fgkHuffmanTree.parentNode) {
       this.updateFgkHuffmanTree(fgkHuffmanTree.parentNode, flatFgkHuffmanTree);
+    }
+  }
+
+  /**
+   * Swaps two nodes in Huffman tree and keeps their indexes in place.
+   * @param nodeA node A that should be swapped with node B
+   * @param nodeB node B that should be swapped with node A
+   */
+  private swap(nodeA: Tree, nodeB: Tree): void {
+    if (nodeA && nodeB && nodeA.parentNode && nodeB.parentNode) {
+      if (nodeA.parentNode.index == nodeB.parentNode.index) {
+        if (nodeA.parentNode.left == nodeB) {
+          nodeA.parentNode.left = nodeA;
+          nodeA.parentNode.right = nodeB;
+        } else {
+          nodeA.parentNode.left = nodeB;
+          nodeA.parentNode.right = nodeA;
+        }
+      } else {
+        if (nodeA.parentNode.left && (nodeA.parentNode.left.index == nodeA.index)) {
+          nodeA.parentNode.left = nodeB;
+        } else {
+          nodeA.parentNode.right = nodeB;
+        }
+
+        if (nodeB.parentNode.left && (nodeB.parentNode.left.index == nodeB.index)) {
+          nodeB.parentNode.left = nodeA;
+        } else {
+          nodeB.parentNode.right = nodeA;
+        }
+
+        const tempParent = nodeB.parentNode;
+        nodeB.parentNode = nodeA.parentNode;
+        nodeA.parentNode = tempParent;
+      }
+
+      const tempId = nodeA.index;
+      nodeA.index = nodeB.index;
+      nodeB.index = tempId;
     }
   }
 

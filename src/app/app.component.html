@@ -2,20 +2,11 @@
   <mat-sidenav class="sidenav" #sidenav>
     <mat-list>
       <mat-toolbar class="primary-color">Menu</mat-toolbar>
-      <mat-list-item routerLinkActive="router-link-active" [routerLink]="['/']"
-                     (click)="menuListItemSelected('/')">
-        <mat-icon>keyboard_arrow_right</mat-icon>
-        Wprowadzenie
-      </mat-list-item>
       <mat-list-item routerLinkActive="router-link-active" [routerLink]="['/huffman']"
                      (click)="menuListItemSelected('/huffman')">
         <mat-icon>keyboard_arrow_right</mat-icon>
         Statyczne kodowanie Huffmana
       </mat-list-item>
-      <mat-toolbar class="primary-color">
-        <mat-icon>keyboard_arrow_right</mat-icon>
-        Dynamiczne kodowanie
-      </mat-toolbar>
       <mat-list-item routerLinkActive="router-link-active" [routerLink]="['/fgk']"
                      (click)="menuListItemSelected('/fgk')">
         <mat-icon>keyboard_arrow_right</mat-icon>
