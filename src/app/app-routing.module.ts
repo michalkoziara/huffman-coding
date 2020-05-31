@@ -8,6 +8,7 @@ const appRoutes: Routes = [
   {path: 'fgk', component: FgkComponent},
   {path: 'huffman', component: HuffmanComponent},
   {path: 'vitter', component: VitterComponent},
+  {path: '', component: HuffmanComponent},
   {path: '**', pathMatch: 'full', redirectTo: '/'}
 ];
 
