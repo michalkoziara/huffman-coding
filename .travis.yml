@@ -10,8 +10,8 @@ install:
   - npm install
 before_script:
   - npm run lint
-script:
-  - npm run test-ci-headless
+#script:
+#  - npm run test-ci-headless
 after_success:
   - npm run build-prod
 before_deploy:
