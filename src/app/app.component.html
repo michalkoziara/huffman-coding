@@ -46,18 +46,9 @@
       </mat-toolbar>
     </header>
 
-    <main fxFlex>
-      <router-outlet></router-outlet>
+    <main>
+      <router-outlet class="router-flex"></router-outlet>
     </main>
-
-    <footer fxLayout="row" fxLayoutAlign="center center">
-      <div>Did you like this project? &nbsp;</div>
-      <a href="https://github.com/angular/angular" target="_blank" rel="noopener"> Give this repo a star&nbsp;</a>
-      <button mat-stroked-button class="primary-color">
-        <mat-icon aria-hidden="false" aria-label="Star icon">star</mat-icon>
-        Star
-      </button>
-    </footer>
   </div>
 
   <svg id="clouds" alt="Gray Clouds Background" xmlns="http://www.w3.org/2000/svg" width="2611.084" height="485.677"

@@ -1,4 +1,4 @@
-<div fxLayout="column">
+<div fxFlex="grow" fxLayout="column">
   <div fxLayout="row" fxLayout.lt-md="column">
     <mat-card fxFlex>
       <form [formGroup]="formGroup" (ngSubmit)="submit()" fxLayout="column">
@@ -29,7 +29,7 @@
     </mat-card>
   </div>
 
-  <mat-card class="view" fxLayout="column">
+  <mat-card fxFlex="1 1 auto" class="view" fxLayout="column">
     <mat-card-header>
       <mat-card class="legend" fxLayout="column" *ngIf="huffmanTree && display == 'showTree'">
         <h3>Legenda</h3>
