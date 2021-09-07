@@ -32,11 +32,6 @@ Detailed information about installation and configurations are provided at devel
 A step by step instruction [on Windows 10]:
 * Navigate to project directory in Command Prompt (cmd).
 * Run `npm run start` to start application's local development server. 
-
-  ```
-  npm start
-  ```
-  
 * Navigate to `http://localhost:4200/` in your browser. 
 The application will automatically reload if you change any of the source files.
 
@@ -69,7 +64,3 @@ In order to distribute the application in a cloud environment, ``.travis.yml`` f
 ## Author
 
 * **Michał Koziara** 
-
-
-
-
